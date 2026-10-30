@@ -779,7 +779,7 @@ void SettingsDialog::readSettings()
     ui->noTabCheckBox->setChecked(settings.value("TextArea/noTab", false).toBool());
     settings.endGroup();
     settings.beginGroup("Updater");
-    ui->checkUpdateAtStartupCheckBox->setChecked(settings.value("checkAtStartup_2", true).toBool());
+    ui->checkUpdateAtStartupCheckBox->setChecked(settings.value("checkAtStartup_2", false).toBool());
     settings.endGroup();
     settings.beginGroup("MainWindow");
     ui->isToolBarInStatusBarCheckBox->setChecked(settings.value("isToolBarInStatusBar", false).toBool());

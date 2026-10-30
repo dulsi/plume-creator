@@ -1492,7 +1492,7 @@ void MainWindow::readSettings()
         settings.value("checkScreenResAtStartup", true).toBool();
     settings.endGroup();
     settings.beginGroup("Updater");
-    checkUpdateAtStartupBool = settings.value("checkAtStartup_2", true).toBool();
+    checkUpdateAtStartupBool = settings.value("checkAtStartup_2", false).toBool();
     settings.endGroup();
 
 
