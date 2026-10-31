@@ -123,6 +123,9 @@ bool TextTab::openText(MainTextDocument *doc)
     ui->textZone->setDoc(textDocument);
     QApplication::processEvents();
     ui->textZone->document()->adjustSize();
+    // adjustSize resets the document text width to a content based width :
+    // re-apply the text area width so that the text wraps at the edge of the text area :
+    ui->textZone->document()->setTextWidth(ui->textZone->viewport()->width());
 
     // slim find replace :
 
@@ -301,6 +304,9 @@ void  TextTab::setPrevText(MainTextDocument *prevDoc)
     prevTextDocument = prevDoc;
     ui->prevTextZone->setDoc(prevTextDocument);
     ui->prevTextZone->document()->adjustSize();
+    // adjustSize resets the document text width to a content based width :
+    // re-apply the text area width so that the text wraps at the edge of the text area :
+    ui->prevTextZone->document()->setTextWidth(ui->prevTextZone->viewport()->width());
 
 
     QTextCursor curs =  ui->prevTextZone->textCursor();
@@ -379,6 +385,9 @@ void  TextTab::setNextText(MainTextDocument *nextDoc)
     nextTextDocument = nextDoc;
     ui->nextTextZone->setDoc(nextTextDocument);
     ui->nextTextZone->document()->adjustSize();
+    // adjustSize resets the document text width to a content based width :
+    // re-apply the text area width so that the text wraps at the edge of the text area :
+    ui->nextTextZone->document()->setTextWidth(ui->nextTextZone->viewport()->width());
 
 
     QTextCursor curs =  ui->nextTextZone->textCursor();

@@ -80,6 +80,11 @@ void TextZone::setDoc(MainTextDocument *doc)
 
 
 
+    // QTextEdit resets the text width of its document whenever the document is
+    // replaced, and QTextDocument::adjustSize() resets it to a content based width :
+    // re-apply the text area width so that the text wraps at the edge of the text area :
+    textDocument->setTextWidth(this->viewport()->width());
+
     // activate spell check at start
 
     QSettings settings;
@@ -759,9 +764,9 @@ void TextZone::createThumbnail()
 
 
         QTextEdit tempEdit;
-        tempEdit.setDocument(textDocument);
         tempEdit.setFixedHeight(textDocument->size().height());
         tempEdit.setFixedWidth(textDocument->textWidth());
+        tempEdit.setDocument(textDocument);
 
 #if QT_VERSION < 0x050000
         QPixmap thumbnail = QPixmap::grabWidget(&tempEdit);
@@ -770,6 +775,11 @@ void TextZone::createThumbnail()
         QPixmap thumbnail = tempEdit.grab();
 #endif
 
+        // The temporary text edit resets the text width of the shared document
+        // while laying it out (QTextEdit::setDocument() re-lays out the document
+        // with the temporary edit's width) : re-apply the text area width so that
+        // the text keeps wrapping at the edge of the text area :
+        textDocument->setTextWidth(this->viewport()->width());
 
         emit textThumbnailSignal(thumbnail);
     }
@@ -989,7 +999,7 @@ bool TextZone::canInsertFromMimeData (const QMimeData *source) const
 void TextZone::resizeEvent(QResizeEvent* event)
 {
     centerCursor();
-    textDocument->setTextWidth(this->width() - 20);// Fix ticket #10 : the wobbling of the text
+    textDocument->setTextWidth(this->viewport()->width());// Fix ticket #10 : the wobbling of the text
     //    textDocument->setTextWidth(-1);
 
     QRect rect(this->mapToGlobal(this->pos()).x(), this->mapToGlobal(this->pos()).y(), this->width(), this->height());
