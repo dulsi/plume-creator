@@ -350,12 +350,9 @@ void MenuBar::about()
 
                        "<p>Version " + currentVersion + "</p>"
 
-                                                        "<p><center><address><a href=http://www.plume-creator.eu>http://www.plume-creator.eu</a></address></center></p>"
-
                                                         "<p>Copyright (C)" +
                        QString::number(
                            QDate::currentDate().year())   + ", created by Cyril Jacquet</p>"
-                                                            "<p>cyril.jacquet@plume-creator.eu</p></center>"
                                                             "<br>"
                                                             "<p>Plume Creator is free software: you can redistribute it and/or modify "
                                                             "it under the terms of the GNU General Public License as published by "
