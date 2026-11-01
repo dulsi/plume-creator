@@ -106,7 +106,6 @@ src/textstyles.cpp \
 src/findReplace/findreplace.cpp \
 src/fullscreen/fulltextzone.cpp \
 src/fullscreen/fullscreeneditor.cpp \
-src/slimupdater.cpp \
 src/outliner/outlinerspreadsheetheader.cpp \
 src/outliner/outlinerspreadsheetheadersection.cpp \
 src/wordgoalprogressbar.cpp \
@@ -157,7 +156,6 @@ src/hub.cpp \
     src/newProjectWizard/intropage.cpp \
     src/edittoolbar.cpp \
     src/overlay.cpp \
-    src/updatechecker.cpp \
     src/rtf/writer.cpp \
     src/rtf/tokenizer.cpp \
     src/rtf/reader.cpp \
@@ -189,7 +187,6 @@ src/textstyles.h \
 src/findReplace/findreplace.h \
 src/fullscreen/fulltextzone.h \
 src/fullscreen/fullscreeneditor.h \
-src/slimupdater.h \
 src/outliner/outlinerspreadsheetheader.h \
 src/outliner/outlinerspreadsheetheadersection.h \
 src/wordgoalprogressbar.h \
@@ -240,7 +237,6 @@ src/hub.h \
     src/newProjectWizard/intropage.h \
     src/edittoolbar.h \
     src/overlay.h \
-    src/updatechecker.h \
     src/rtf/writer.h \
     src/rtf/tokenizer.h \
     src/rtf/reader.h \
@@ -264,7 +260,6 @@ src/settingsdialog.ui \
 src/editmenu.ui \
 src/findReplace/findreplace.ui \
 src/fullscreen/fullscreeneditor.ui \
-src/slimupdater.ui \
 src/mainwindow.ui \
 src/wordgoalprogressbar.ui \
     src/attend/attendbase.ui \

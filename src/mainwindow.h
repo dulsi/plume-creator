@@ -35,7 +35,6 @@
 #include "fullscreen/fullscreeneditor.h"
 #include "attend/attendbase.h"
 #include "orientationbutton.h"
-#include "slimupdater.h"
 #include "wordgoalprogressbar.h"
 #include "workbench.h"
 #include "dockedTree/dockedtree.h"
@@ -146,12 +145,7 @@ private slots:
 
 
 
-    //updater :
-    void launchSlimUpdater(QString mode = "auto");
-    void closeSlimUpdater();
-
     void giveStyle();
-
 
     void killWorkbench();
 
@@ -218,7 +212,6 @@ private:
 
     bool m_firstStart;
     bool m_firstStart_checkDisplay;
-    bool checkUpdateAtStartupBool;
     bool checkScreenResAtStartupBool;
 
     void setConnections();

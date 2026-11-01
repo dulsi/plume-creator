@@ -778,9 +778,6 @@ void SettingsDialog::readSettings()
     ui->oneTabOnlyCheckBox->setChecked(settings.value("oneTabOnly", false).toBool());
     ui->noTabCheckBox->setChecked(settings.value("TextArea/noTab", false).toBool());
     settings.endGroup();
-    settings.beginGroup("Updater");
-    ui->checkUpdateAtStartupCheckBox->setChecked(settings.value("checkAtStartup_2", false).toBool());
-    settings.endGroup();
     settings.beginGroup("MainWindow");
     ui->isToolBarInStatusBarCheckBox->setChecked(settings.value("isToolBarInStatusBar", false).toBool());
     prevIsToolBarInStatusBar = ui->isToolBarInStatusBarCheckBox->isChecked();
@@ -914,9 +911,6 @@ void SettingsDialog::accept()
     settings.setValue("oneTabOnly", ui->oneTabOnlyCheckBox->isChecked());
     settings.setValue("numberSymbolIsComma", ui->useCommasInNumbersCheckBox->isChecked());
     settings.setValue("TextArea/noTab", ui->noTabCheckBox->isChecked());
-    settings.endGroup();
-    settings.beginGroup("Updater");
-    settings.setValue("checkAtStartup_2", ui->checkUpdateAtStartupCheckBox->isChecked());
     settings.endGroup();
     settings.beginGroup("MainWindow");
     settings.setValue("isToolBarInStatusBar", ui->isToolBarInStatusBarCheckBox->isChecked());

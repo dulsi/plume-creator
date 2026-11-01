@@ -140,10 +140,6 @@ void MainWindow::postConstructor()
     }
 
 
-    if (checkUpdateAtStartupBool) {
-        launchSlimUpdater("auto");
-    }
-
     if (!isExternalProjectOpeningBool && !projectWizardAccepted) {
         menu->openStartCenter();
     }
@@ -173,9 +169,6 @@ void MainWindow::createMenuBar()
             SLOT(close()));
     connect(menu, SIGNAL(setDisplayModeSignal(QString,bool)), this,
             SLOT(setDisplayMode(QString,bool)));
-
-    connect(menu, SIGNAL(launchCheckUpdateSignal(QString)), this,
-            SLOT(launchSlimUpdater(QString)));
     connect(menu, SIGNAL(applyStyleSheetSignal()), this,
             SLOT(giveStyle()));
     connect(menu, SIGNAL(applyConfigSignal()), hub,
@@ -1491,9 +1484,6 @@ void MainWindow::readSettings()
     checkScreenResAtStartupBool =
         settings.value("checkScreenResAtStartup", true).toBool();
     settings.endGroup();
-    settings.beginGroup("Updater");
-    checkUpdateAtStartupBool = settings.value("checkAtStartup_2", false).toBool();
-    settings.endGroup();
 
 
     //    checkHiddenDocks();
@@ -1957,34 +1947,6 @@ int MainWindow::setCurrentNumber()
 
     return number;
 }
-
-// ----------------------------------------------------------------------------
-// ---------------------Updater-----------------------------------
-// ----------------------------------------------------------------------------
-
-
-void MainWindow::launchSlimUpdater(QString mode)
-{
-    SlimUpdater *updater = new SlimUpdater;
-
-    updater->setHub(hub);
-    connect(this,    SIGNAL(applyConfigSignal()),  updater, SLOT(readSettings()));
-    connect(updater, SIGNAL(closeUpdaterSignal()), this,    SLOT(closeSlimUpdater()));
-    ui->baseWidget->layout()->addWidget(updater);
-}
-
-void MainWindow::closeSlimUpdater()
-{
-    QWidget *widget = ui->baseWidget->findChild<QWidget *>("SlimUpdater");
-
-    ui->baseWidget->layout()->removeWidget(widget);
-    widget->deleteLater();
-}
-
-// ----------------------------------------------------------------------------
-// ----------------------------------------------------------------------------
-// ----------------------------------------------------------------------------
-
 
 void MainWindow::giveStyle()
 {

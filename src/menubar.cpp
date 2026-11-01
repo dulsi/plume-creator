@@ -375,13 +375,6 @@ void MenuBar::about()
 // --------------------------------------------------------------------------
 
 
-void MenuBar::launchCheckUpdateDialog(QString mode)
-{
-    emit launchCheckUpdateSignal(mode);
-}
-
-// --------------------------------------------------------------------------
-
 bool MenuBar::exit()
 {
     if (projectAlreadyOpened) {
@@ -602,19 +595,12 @@ void MenuBar::createActions()
     viewCreditsAct->setToolTip(tr("View credits"));
     connect(viewCreditsAct, SIGNAL(triggered()), this, SLOT(viewCredits()));
 
-    updaterAct = new QAction(QIcon(":/pics/download.png"), tr("Check Update"), this);
-
-    // aboutQtAct->setShortcut(QKeySequence::Quit);
-    updaterAct->setToolTip(tr("check for an update"));
-    connect(updaterAct, SIGNAL(triggered()), this, SLOT(checkUpdate()));
-
     helpGroup = new QMenu(tr("&Help"), parentWidget);
     helpGroup->addAction(aboutAct);
     helpGroup->addAction(aboutQtAct);
     helpGroup->addSeparator();
     helpGroup->addAction(viewReleaseNotesAct);
     helpGroup->addAction(viewCreditsAct);
-    helpGroup->addAction(updaterAct);
 }
 
 // ---------------------------------------------------------------------------

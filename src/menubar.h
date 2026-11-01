@@ -56,8 +56,6 @@ public:
         readSettings();
     }
 
-    void launchCheckUpdateDialog(QString mode = "none");
-
 protected:
 
 signals:
@@ -72,8 +70,6 @@ signals:
     void openProjectNumberSignal(int prjNumber);
 
     void applyConfigSignal();
-
-    void launchCheckUpdateSignal(QString mode);
 
 
     // repeater between Dialog Settings and MainWindow
@@ -167,9 +163,6 @@ private slots:
     void about();
     void viewReleaseNotes();
     void viewCredits();
-    void checkUpdate() {
-        launchCheckUpdateDialog("none");
-    }
 
     void createEditWidget();
 
@@ -211,7 +204,6 @@ private:
             *aboutAct,
             *viewReleaseNotesAct,
             *viewCreditsAct,
-            *updaterAct,
             *showTreeDockAct, *showNotesDockAct, *showAttendDockAct, *showToolsDockAct,
             *launchOutlinerAct, *showFullscreenAct;
 
