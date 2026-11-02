@@ -92,6 +92,7 @@ public:
     MainTextDocument *prevText(int num);
     MainTextDocument *nextText(int num);
     void saveCursorPos(int textCursorPosition, int synCursorPosition, int noteCursorPosition, int number);
+    bool isProjectModified() const;
 
 
 
@@ -147,6 +148,7 @@ public slots:
 
     void openSheet(int id);
     void saveProject(QString mode = "");
+    void addToSaveQueue();
 
     void applyConfig();
 private slots:
@@ -184,6 +186,7 @@ bool filesLocked;
 
     void loadTextDocs(QDomNodeList list);
     void loadAttendDocs(QDomNodeList list);
+    bool textAlreadyChanged;
     int saveStack;
     QList<int> timerIdList;
     void restartSaveTimer();

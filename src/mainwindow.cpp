@@ -21,7 +21,7 @@
 //
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), noTabCss(""), textAlreadyChanged(false)
+    : QMainWindow(parent), noTabCss("")
     , ui(new Ui::MainWindow),  ui_dockedTreeBase(new Ui::DockedTreeBase),
     ui_noteDock(new Ui::NoteDock)
     , isExternalProjectOpeningBool(false)
@@ -55,8 +55,6 @@ MainWindow::MainWindow(QWidget *parent)
             SLOT(closeProjectSlot()));
     connect(this, SIGNAL(closeAllChildrenWindowsSignal()), hub,
             SIGNAL(closeAllChildrenWindowsSignal()));
-    connect(hub, SIGNAL(textAlreadyChangedSignal(bool)), this,
-            SLOT(textAlreadyChangedSlot(bool)));
     connect(hub, SIGNAL(showStatusBarMessageSignal(QString,int)), ui->bar,
             SLOT(showMessage(QString,int)));
 
@@ -1027,6 +1025,8 @@ void MainWindow::textSlot(int number, QString action)
 
 
         // open and mem in :
+        // (opening a scene only loads content into the editor : it is not a
+        // user modification) :
 
         TextTab *tab = new TextTab(this);
         tab->setHub(hub);
@@ -1148,13 +1148,6 @@ void MainWindow::textSlot(int number, QString action)
         connect(this, SIGNAL(applyConfigSignal()), synStack,  SLOT(applySynConfig()));
         connect(this, SIGNAL(applyConfigSignal()), noteStack, SLOT(applyNoteConfig()));
 
-
-        // connect save when text change :
-        connect(tab,       SIGNAL(textChangedSignal()), this, SLOT(textChangedSlot()));
-        connect(noteStack, SIGNAL(textChanged()),       this, SLOT(textChangedSlot()));
-        connect(synStack,  SIGNAL(textChanged()),       this, SLOT(textChangedSlot()));
-
-
         // focus on text :
         tab->setTextFocus();
 
@@ -1162,6 +1155,12 @@ void MainWindow::textSlot(int number, QString action)
         tab->setCursorPos(textDoc->cursorPos());
         synStack->setCursorPos(synDoc->cursorPos());
         noteStack->setCursorPos(noteDoc->cursorPos());
+
+        // connect save when text change :
+        connect(tab,       SIGNAL(textChangedSignal()), this, SLOT(textChangedSlot()));
+        connect(noteStack, SIGNAL(textChanged()),       this, SLOT(textChangedSlot()));
+        connect(synStack,  SIGNAL(textChanged()),       this, SLOT(textChangedSlot()));
+
 
 
         textDoc->connectWordCount();
@@ -1643,15 +1642,7 @@ void MainWindow::autosaveTimer()
 // ----------------------------------------------------------------------------------------
 void MainWindow::textChangedSlot()
 {
-    //
-
-
-    //    if(!textAlreadyChanged){
-    //        textAlreadyChanged = true;
-
-    //        QTimer::singleShot(autosaveTime, hub, SLOT(addToSaveQueue()));
-
-    //    }
+    hub->addToSaveQueue();
 }
 
 // ---------------------------------------------------------------------------
@@ -1886,7 +1877,6 @@ void MainWindow::openSheet(int sheetNumber,
 
 
     this->textSlot(sheetNumber, "open");
-
 
     TextTab *tab =
         ui->mainTabWidget->findChild<TextTab *>("tab_" +

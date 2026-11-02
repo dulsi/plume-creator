@@ -17,6 +17,8 @@ TEMPLATE = app
 
 VERSION = 0.67
 DEFINES += VERSIONSTR=\\\"$${VERSION}\\\"
+DEFINES += QT_DEBUG
+CONFIG += debug
 
 #DESTDIR = bin
 #MOC_DIR = build

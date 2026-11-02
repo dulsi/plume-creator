@@ -160,11 +160,15 @@ void MenuBar::displayConfig(int tabIndex)
 
 bool MenuBar::closeProject()
 {
-    //    if(projectAlreadyOpened == false)
-    //        return;
+    if(projectAlreadyOpened == false)
+        return true;
 
-    //    if(file == 0)
-    //        return;
+    if(hub->isProjectModified() == false){
+        // no change : nothing to save :
+        hub->closeCurrentProject();
+        projectAlreadyOpened = false;
+        return true;
+    }
 
     QMessageBox msgBox(parentWidget);
 

@@ -6,6 +6,7 @@ Hub::Hub(QWidget *parent) :
     saveStack(0), m_wordGoal(1000), m_achievedWordGoal(0), m_baseWordCount(0),
     m_userDict(QString())
 {
+    textAlreadyChanged = false;
     m_project = new Project(this);
     wcThread = new WordCountEngineThread(this);    // wordCount thread
     zipChecker = new ZipChecker(this);
@@ -155,7 +156,6 @@ SpellChecker *Hub::spellChecker()
 void Hub::openSheet(int id)
 {
     emit textAndNoteSignal(id, "open");
-
 }
 
 //--------------------------------------------------------------------------------
@@ -799,6 +799,10 @@ void Hub::saveProject(QString mode)
     if(this->areFilesLocked() == true)
         return;
 
+    // the project has been saved : no change is pending anymore :
+    if(mode != "backup")
+        this->textAlreadyChanged = false;
+
     this->lockFiles();
     //    qDebug() << "POST_Lock Hub::areFileLocked() : "<< this->areFilesLocked();
 
@@ -1035,6 +1039,7 @@ void Hub::timerEvent(QTimerEvent *event)
 
     qDebug() << " -------- saving backup !";
     this->saveProject("backup");
+    this->textAlreadyChanged = false;
     emit textAlreadyChangedSignal(false);
     restartSaveTimer();
 
@@ -1240,6 +1245,39 @@ void Hub::saveCursorPos(int textCursorPosition, int synCursorPosition, int noteC
 }
 
 
+//-----------------------------------------------------------------------------------------------
+
+bool Hub::isProjectModified() const
+{
+    return textAlreadyChanged;
+}
+
+//-----------------------------------------------------------------------------------------------
+
+void Hub::addToSaveQueue()
+{
+    if(!textAlreadyChanged){
+        textAlreadyChanged = true;
+        emit textAlreadyChangedSignal(true);
+    }
+
+    if(this->areFilesLocked()){
+        saveStack += 1; // add more time before the next saving...
+    }
+
+    saveStack += 1;
+
+    if(saveStack == 1)
+        timerIdList.append(this->startTimer(2000));
+    else if(saveStack > 1){  // reset if more than one save demand
+        for(int i = 0; i < timerIdList.size(); ++i){
+            this->killTimer(timerIdList.at(i));
+        }
+        timerIdList.clear();
+        timerIdList.append(this->startTimer(4000));
+    }
+
+}
 
 //--------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------

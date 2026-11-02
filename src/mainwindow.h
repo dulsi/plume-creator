@@ -105,7 +105,6 @@ private slots:
     void launchWorkbench();
 
     void textChangedSlot();
-    void textAlreadyChangedSlot(bool textChanged){textAlreadyChanged = textChanged;}
 
     void showPrevAndNextTexts(bool showTextsBool = true);
     void openSheet(int sheetNumber = 0, int textCursorPos = 0, int noteCursorPos = 0, int synCursorPos = 0);
@@ -248,7 +247,6 @@ private:
 
 QString noTabCss;
 
-    bool textAlreadyChanged;
     bool isExternalProjectOpeningBool;
 
     WordGoalProgressBar *wordGoalBar;
