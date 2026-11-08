@@ -633,11 +633,42 @@ void TextTab::resizeEvent(QResizeEvent *event)
 
 //-------------------------------------------------------------------
 
+void TextTab::showEvent(QShowEvent *event)
+{
+    QWidget::showEvent(event);
+
+    // Tabs that were created while hidden may not have up-to-date geometry or
+    // hover zones. Recompute everything from the current text zone position.
+    if (layout())
+        layout()->activate();
+
+    overlay->resize(this->size());
+
+    QRect globalRect(ui->textZone->mapToGlobal(QPoint(0, 0)), ui->textZone->size());
+    this->editZoneMoved(globalRect);
+    overlay->editZoneMoved(globalRect);
+    ui->editToolBar->editZoneMoved(globalRect);
+}
+
 void TextTab::mouseMoveEvent(QMouseEvent *event)
 {
-    if(m_leftHoverZone.contains(event->pos()) || m_rightHoverZone.contains(event->pos()))
+    // Compute the hover zones from the current text zone geometry so that the
+    // tool bar can be shown on every tab, not only on the one that was visible
+    // when the zones were first cached.
+    QRect textRect = ui->textZone->geometry();
+    int hoverZoneSize = textRect.height() / 15;
+    if (hoverZoneSize < 1)
+        hoverZoneSize = 1;
+
+    QRect leftZone(textRect.x() + 5 - hoverZoneSize, textRect.y(),
+                   hoverZoneSize, hoverZoneSize);
+    QRect rightZone(textRect.x() + textRect.width(), textRect.y(),
+                    hoverZoneSize, hoverZoneSize);
+
+    if (leftZone.contains(event->pos()) || rightZone.contains(event->pos()))
         ui->editToolBar->openToolBar();
 
+    QWidget::mouseMoveEvent(event);
 }
 
 //-------------------------------------------------------------------

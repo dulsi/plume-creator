@@ -7,7 +7,7 @@
 #include <QtGui>
 
 EditToolBar::EditToolBar(QWidget *parent) :
-    QWidget(parent),ui(new Ui::EditToolBar), isOpened(false), m_height(this->height()), isPressed(false), timerIsActivated(true)
+    QWidget(parent),ui(new Ui::EditToolBar), isOpened(false), m_height(0), isPressed(false), timerIsActivated(true)
 {
 
 
@@ -19,6 +19,10 @@ EditToolBar::EditToolBar(QWidget *parent) :
 
     createActions();
     applyConfig();
+    if (toolBar)
+        m_height = toolBar->sizeHint().height();
+    if (m_height < 24)
+        m_height = 24;
     //    connect(action, SIGNAL(triggered()), this, SLOT(closeToolBar()));
 
     closeZoneRect = QRect(0, this->height() -4, this->width(), 4);
